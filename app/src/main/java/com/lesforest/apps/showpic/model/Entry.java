@@ -16,10 +16,10 @@ import java.util.Map;
 public class Entry {
 
     @Element(name="title")
-    private String title;
+    public String title;
 
     @ElementArray
-    private Img img;
+    public Img img;
 //    private Link[] links;
 
 //

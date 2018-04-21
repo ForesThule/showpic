@@ -2,9 +2,9 @@ package com.lesforest.apps.showpic.model.img;
 
 public class Pic {
 
-    String width;
-    String href;
-    String height;
+    public String width;
+    public String href;
+    public String height;
 
     @Override
     public String toString() {

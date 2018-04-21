@@ -8,7 +8,7 @@ import com.lesforest.apps.showpic.model.img.Pic;
 public class Img {
 
     @SerializedName("M")
-    private Pic m;
+    public Pic m;
 
     @Override
     public String toString() {

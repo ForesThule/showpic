@@ -11,10 +11,10 @@ import java.util.List;
 public class Feed {
 
     @Element(name="title")
-    private String title;
+    public String title;
 
     @ElementList
-    private List<Entry> entries;
+    public List<Entry> entries;
 
     @Override
     public String toString() {
