@@ -1,22 +1,19 @@
-package com.lesforest.apps.showpic;
+package com.lesforest.apps.showpic.ui;
 
 import android.app.AlertDialog;
 import android.net.Uri;
 import android.view.View;
 
-import com.lesforest.apps.showpic.model.Img;
-import java.util.List;
-
 public class AlbumPresenter {
   private Uri currentPhotoUri;
   private MainActivity activity;
   public AlertDialog photoChooserDialog;
-  List<Img> data;
+//  List<Img> data;
 
-  public AlbumPresenter(MainActivity act,   List<Img> data) {
+  public AlbumPresenter(MainActivity act) {
     activity = act;
-    this.data = data;
   }
+
 
 //  public void openInImageViewer(View view) {
 //

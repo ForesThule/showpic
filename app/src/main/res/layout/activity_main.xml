@@ -15,11 +15,10 @@
 
         <android.support.v7.widget.Toolbar
 
-
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/holo_purple"
+            android:background="@color/colorPrimary"
             app:layout_constraintTop_toTopOf="parent"></android.support.v7.widget.Toolbar>
 
         <android.support.v7.widget.RecyclerView
@@ -32,12 +31,12 @@
         </android.support.v7.widget.RecyclerView>
     </android.support.constraint.ConstraintLayout>
 
-    <com.lesforest.apps.showpic.PhotoAlbumViewer
+    <com.lesforest.apps.showpic.ui.PhotoAlbumViewer
         android:id="@+id/viewer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone">
 
-    </com.lesforest.apps.showpic.PhotoAlbumViewer>
+    </com.lesforest.apps.showpic.ui.PhotoAlbumViewer>
 
 </FrameLayout>

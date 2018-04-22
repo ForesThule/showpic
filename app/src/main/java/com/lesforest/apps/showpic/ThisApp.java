@@ -3,6 +3,9 @@ package com.lesforest.apps.showpic;
 import android.app.Application;
 import android.content.Context;
 
+import com.lesforest.apps.showpic.network.MainApi;
+import com.lesforest.apps.showpic.utils.Helpers;
+
 import timber.log.Timber;
 
 /**

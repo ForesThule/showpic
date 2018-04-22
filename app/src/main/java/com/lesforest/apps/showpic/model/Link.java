@@ -5,13 +5,12 @@ import org.simpleframework.xml.Root;
 
 public class Link {
 
-    @Attribute(name = "href")
-    String href;
+    public String next;
 
     @Override
     public String toString() {
         return "Link{" +
-                "href='" + href + '\'' +
+                "next='" + next + '\'' +
                 '}';
     }
 }

@@ -70,6 +70,9 @@ dependencies {
     implementation 'com.github.h6ah4i:android-advancedrecyclerview:develop-SNAPSHOT'
 
 
+    compile 'com.yandex.android:disk-restapi-sdk:1.0'
+
+
     annotationProcessor 'com.github.bumptech.glide:compiler:4.7.1'
     implementation 'jp.wasabeef:glide-transformations:3.2.0'
     // If you want to use the GPU Filters

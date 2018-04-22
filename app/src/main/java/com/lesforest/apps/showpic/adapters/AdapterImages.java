@@ -1,4 +1,4 @@
-package com.lesforest.apps.showpic;
+package com.lesforest.apps.showpic.adapters;
 
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
@@ -36,31 +36,23 @@ public class AdapterImages extends PagerAdapter {
 
     Timber.i(currentLink);
 
-    GlideApp.with(container.getContext())
-            .load(currentLink)
-            .placeholder(R.drawable.ic_launcher_background)
-            .centerInside()
-            .thumbnail(0.5f)
-                .centerCrop()
-            .transform(new CropSquareTransformation())
-            .override(900,900)
-//                .s
-            .diskCacheStrategy(DiskCacheStrategy.ALL)
-            .onlyRetrieveFromCache(true)
-            .into(photoView);
+//    GlideApp.with(container.getContext())
+//            .load(currentLink)
+//            .placeholder(R.drawable.ic_launcher_background)
+//            .centerInside()
+//            .thumbnail(0.5f)
+//                .centerCrop()
+//            .transform(new CropSquareTransformation())
+//            .override(800,800)
+////                .s
+//            .diskCacheStrategy(DiskCacheStrategy.ALL)
+//            .onlyRetrieveFromCache(true)
+//            .into(photoView);
 
-//    Picasso.with(container.getContext())
-//        .load(currentLink)
-//        //.placeholder(R.drawable.ic_loop)
-//        .into(photoView, new Callback() {
-//      @Override public void onSuccess() {
-//        attacher.update();
-//      }
-//
-//      @Override public void onError() {
-//        // just ignore, nothing to do
-//      }
-//    });
+    Picasso.with(container.getContext())
+        .load(currentLink)
+        //.placeholder(R.drawable.ic_loop)
+        .into(photoView);
 
     container.addView(photoView, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 

@@ -1,10 +1,7 @@
-package com.lesforest.apps.showpic;
+package com.lesforest.apps.showpic.ui;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
@@ -13,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.lesforest.apps.showpic.R;
+import com.lesforest.apps.showpic.adapters.AdapterImages;
 import com.lesforest.apps.showpic.model.Img;
 
 import java.util.List;
@@ -31,7 +30,8 @@ public class PhotoAlbumViewer extends RelativeLayout {
   View rootView;
 
   //@BindView(R.id.image_viewer_frame) View frameImageViewer;
-  @BindView(R.id.view_pager) HackyViewPager imageViewerPager;
+  @BindView(R.id.view_pager)
+  HackyViewPager imageViewerPager;
   @BindView(R.id.viewPagerDots) LinearLayout pagerIndicator;
   @BindView(R.id.arrow_back) ImageView arrowBack;
   @BindView(R.id.delete_image) ImageView deleteImage;
@@ -191,4 +191,7 @@ public class PhotoAlbumViewer extends RelativeLayout {
     return imageViewerPager;
   }
 
+  public int getPosition() {
+    return currentImagePosition;
+  }
 }

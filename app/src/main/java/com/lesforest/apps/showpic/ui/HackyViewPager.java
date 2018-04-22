@@ -1,4 +1,4 @@
-package com.lesforest.apps.showpic;
+package com.lesforest.apps.showpic.ui;
 
 import android.content.Context;
 import android.support.v4.view.ViewPager;

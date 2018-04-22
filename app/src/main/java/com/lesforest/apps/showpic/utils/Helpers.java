@@ -1,4 +1,4 @@
-package com.lesforest.apps.showpic;
+package com.lesforest.apps.showpic.utils;
 
 import android.content.Context;
 import android.content.Intent;
@@ -8,6 +8,12 @@ import android.net.Uri;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Vibrator;
+
+import com.lesforest.apps.showpic.BuildConfig;
+import com.lesforest.apps.showpic.ThisApp;
+import com.lesforest.apps.showpic.network.MainApi;
+import com.lesforest.apps.showpic.utils.Cv;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;

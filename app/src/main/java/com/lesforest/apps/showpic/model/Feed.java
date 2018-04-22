@@ -13,6 +13,8 @@ public class Feed {
     @Element(name="title")
     public String title;
 
+    public Link links;
+
     @ElementList
     public List<Entry> entries;
 
@@ -20,7 +22,8 @@ public class Feed {
     public String toString() {
         return "Feed{" +
                 "title='" + title + '\'' +
-                ", entries =" + entries+
+                ", links=" + links +
+                ", entries=" + entries +
                 '}';
     }
 }
