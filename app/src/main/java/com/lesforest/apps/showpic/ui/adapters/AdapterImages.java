@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 
+import com.lesforest.apps.showpic.ThisApp;
 import com.lesforest.apps.showpic.model.Img;
 import com.squareup.picasso.Picasso;
 
@@ -27,28 +28,16 @@ public class AdapterImages extends PagerAdapter {
 
     PhotoView photoView = new PhotoView(container.getContext());
 
-    final PhotoViewAttacher attacher = new PhotoViewAttacher(photoView);
+//    final PhotoViewAttacher attacher = new PhotoViewAttacher(photoView);
 
     String currentLink = data.get(position).m.href;
 
     Timber.i(currentLink);
 
-//    GlideApp.with(container.getContext())
-//            .load(currentLink)
-//            .placeholder(R.drawable.ic_launcher_background)
-//            .centerInside()
-//            .thumbnail(0.5f)
-//                .centerCrop()
-//            .transform(new CropSquareTransformation())
-//            .override(800,800)
-////                .s
-//            .diskCacheStrategy(DiskCacheStrategy.ALL)
-//            .onlyRetrieveFromCache(true)
-//            .into(photoView);
-
-    Picasso.with(container.getContext())
+    ThisApp.get(container.getContext())
+            .getPicasso()
+            .with(container.getContext())
         .load(currentLink)
-        //.placeholder(R.drawable.ic_loop)
         .into(photoView);
 
     container.addView(photoView, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);

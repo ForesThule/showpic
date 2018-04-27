@@ -74,9 +74,8 @@ public class MainPresenter {
     @SuppressLint("CheckResult")
     public void getYandexRecentPhotos(String path) {
 
-        ProgressBarAnimation anim = new ProgressBarAnimation(activity.progress, 10, 30);
-        anim.setDuration(1000);
-        activity.progress.startAnimation(anim);
+
+        activity.showProgress();
 
         api.recent(path)
                 .subscribeOn(Schedulers.io())
@@ -96,6 +95,9 @@ public class MainPresenter {
 
     @SuppressLint("CheckResult")
     public void loadMore() {
+
+        activity.showProgress();
+
         String next = activity.feed.links.next;
 
         if (null!=next){

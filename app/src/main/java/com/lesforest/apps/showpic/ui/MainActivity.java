@@ -93,8 +93,10 @@ public class MainActivity extends AppCompatActivity {
         mainAdapter.setOnLoadMoreListener(() -> {
             //add null , so the adapter will check view_type and show progress bar at bottom
 
-            entryList.add(null);
-            mainAdapter.notifyItemInserted(entryList.size() - 1);
+//            entryList.add(null);
+
+//            mainAdapter.notifyItemInserted(entryList.size() - 1);
+
 
             mainPresenter.loadMore();
 
@@ -197,7 +199,6 @@ public class MainActivity extends AppCompatActivity {
 
         List<Img> result = new ArrayList<>();
 
-
         for (Entry entry : entryList) {
             Img i = entry.img;
             result.add(i);
@@ -270,5 +271,12 @@ public class MainActivity extends AppCompatActivity {
         mainAdapter.setData(entryList);
         mainAdapter.notifyDataSetChanged();
 
+    }
+
+    public void showProgress() {
+
+        ProgressBarAnimation anim = new ProgressBarAnimation(progress, 10, 30);
+        anim.setDuration(1000);
+        progress.startAnimation(anim);
     }
 }
