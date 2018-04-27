@@ -3,8 +3,13 @@ package com.lesforest.apps.showpic;
 import android.app.Application;
 import android.content.Context;
 
+import com.jakewharton.picasso.OkHttp3Downloader;
+import com.lesforest.apps.showpic.network.AccessToken;
 import com.lesforest.apps.showpic.network.MainApi;
+import com.lesforest.apps.showpic.network.UnsplashApi;
+import com.lesforest.apps.showpic.utils.Cv;
 import com.lesforest.apps.showpic.utils.Helpers;
+import com.squareup.picasso.Picasso;
 
 import timber.log.Timber;
 
@@ -15,21 +20,16 @@ import timber.log.Timber;
 public class ThisApp extends Application {
 
     public static MainApi api;
-
-
-    private String currentUser;
-    private String currentUserDisplayName;
-    private String currentPwd;
-
-    private int currentRouteIndex;
-
-
-    private boolean testMode;
-    private String currentDefSiteId;
-    private int currentPprIndex;
+    public  UnsplashApi unsplashApi;
+    private Picasso picasso;
+    public AccessToken authToken;
 
     public static ThisApp get(Context ctx) {
         return (ThisApp) ctx.getApplicationContext();
+    }
+
+    public Picasso getPicasso() {
+        return picasso;
     }
 
     @Override
@@ -37,6 +37,8 @@ public class ThisApp extends Application {
         super.onCreate();
 
         api = Helpers.createApi(this);
+//        unsplashApi = Helpers.createUnsplashApi(this);
+
 
         if (BuildConfig.DEBUG) {
 
@@ -49,6 +51,19 @@ public class ThisApp extends Application {
                 }
             });
         }
+
+        createPicasso();
+
+    }
+
+    private void createPicasso() {
+        Picasso.Builder builder = new Picasso.Builder(this);
+        OkHttp3Downloader downloader = new OkHttp3Downloader(this, Integer.MAX_VALUE);
+        builder.downloader(downloader);
+        picasso = builder.build();
+        picasso.setIndicatorsEnabled(true);
+        picasso.setLoggingEnabled(true);
+        Picasso.setSingletonInstance(picasso);
     }
 
     public static MainApi getApi(Context ctx) {
@@ -57,55 +72,5 @@ public class ThisApp extends Application {
         }
         return api;    }
 
-    public int getCurrentRouteIndex() {
-        return currentRouteIndex;
-    }
 
-    public void setCurrentRouteIndex(int currentRouteIndex) {
-        this.currentRouteIndex = currentRouteIndex;
-    }
-
-    public String getCurrentUser() {
-        return currentUser;
-    }
-
-    public String getCurrentUserDisplayName() {
-        return currentUserDisplayName;
-    }
-
-    public String getCurrentPwd() {
-        return currentPwd;
-    }
-
-    public void setCurrentUser(String currentUser) {
-        this.currentUser = currentUser;
-    }
-
-    public void setCurrentUserDisplayName(String currentUserDisplayName) {
-        this.currentUserDisplayName = currentUserDisplayName;
-    }
-
-    public void setCurrentPwd(String currentPwd) {
-        this.currentPwd = currentPwd;
-    }
-
-    public void refreshMaximoApi() {
-        api = Helpers.createApi(this);
-    }
-
-    public String getCurrentDefSiteId() {
-        return currentDefSiteId;
-    }
-
-    public void setCurrentDefSiteId(String currentDefSiteId) {
-        this.currentDefSiteId = currentDefSiteId;
-    }
-
-    public int getCurrentPprIndex() {
-        return currentPprIndex;
-    }
-
-    public void setCurrentPprIndex(int currentPprIndex) {
-        this.currentPprIndex = currentPprIndex;
-    }
 }

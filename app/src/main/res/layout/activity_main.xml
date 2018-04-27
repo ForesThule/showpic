@@ -4,9 +4,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity_">
+    tools:context=".ui.MainActivity">
 
+    <ProgressBar
+        android:id="@+id/spinner"
 
+        android:indeterminate="true"
+        android:indeterminateTintMode="src_atop"
+        android:indeterminateTint="@color/colorPrimaryDark"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <android.support.constraint.ConstraintLayout
@@ -16,10 +32,17 @@
         <android.support.v7.widget.Toolbar
 
             android:id="@+id/toolbar"
+            app:titleTextColor="@color/black"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
-            app:layout_constraintTop_toTopOf="parent"></android.support.v7.widget.Toolbar>
+            android:background="@color/colorLightBlue"
+            app:layout_constraintTop_toTopOf="parent"
+            android:elevation="10dp"
+            >
+
+        </android.support.v7.widget.Toolbar>
+
+
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_main"

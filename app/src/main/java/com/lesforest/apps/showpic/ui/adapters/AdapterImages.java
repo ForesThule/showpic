@@ -1,18 +1,15 @@
-package com.lesforest.apps.showpic.adapters;
+package com.lesforest.apps.showpic.ui.adapters;
 
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.lesforest.apps.showpic.model.Img;
-import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import jp.wasabeef.glide.transformations.CropSquareTransformation;
 import timber.log.Timber;
 import uk.co.senab.photoview.PhotoView;
 import uk.co.senab.photoview.PhotoViewAttacher;

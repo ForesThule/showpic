@@ -11,10 +11,15 @@ import android.os.Vibrator;
 
 import com.lesforest.apps.showpic.BuildConfig;
 import com.lesforest.apps.showpic.ThisApp;
+import com.lesforest.apps.showpic.network.AuthenticationInterceptor;
 import com.lesforest.apps.showpic.network.MainApi;
+import com.lesforest.apps.showpic.network.PicsumApi;
+import com.lesforest.apps.showpic.network.UnsplashApi;
 import com.lesforest.apps.showpic.utils.Cv;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -22,6 +27,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Cookie;
@@ -38,54 +44,7 @@ import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 
 public class Helpers {
 
-    public static boolean isNetworkAvailable(Context context) {
 
-        ConnectivityManager connectivityManager
-                = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-
-        boolean b = activeNetworkInfo != null && activeNetworkInfo.isConnected();
-
-        return b;
-    }
-
-    public static String getCurrentWiFiInfo(Context ctx) {
-
-        String ssid = "";
-
-        ConnectivityManager cm = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = cm.getActiveNetworkInfo();
-
-        if (networkInfo == null) {
-            return null;
-        }
-
-        if (networkInfo.isConnected()) {
-
-            final WifiManager wifiManager =
-                    (WifiManager) ctx.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-
-            final WifiInfo connectionInfo = wifiManager.getConnectionInfo();
-
-            if (connectionInfo != null) {
-                int ipAddress = connectionInfo.getIpAddress();
-                ssid = connectionInfo.getSSID();
-
-                return "IP: " + integerToStringIP(ipAddress) + " SSID: " + ssid;
-            }
-        }
-        return ssid;
-    }
-
-    public static String integerToStringIP(int ip) {
-        return ((ip >> 24) & 0xFF) + "." +
-
-                ((ip >> 16) & 0xFF) + "." +
-
-                ((ip >> 8) & 0xFF) + "." +
-
-                (ip & 0xFF);
-    }
 
     public static MainApi createApi(Context ctx) {
 
@@ -97,6 +56,59 @@ public class Helpers {
 //                ? Cv.MAXIMO_MAIN_URL
 //                : Cv.HTTP + savedServerIpWithPort +
                         Cv.URL;
+
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+
+        CookieJar jar = new CookieJar() {
+
+            private final HashMap<String, List<Cookie>> cookieStore = new HashMap<>();
+
+            @Override
+            public void saveFromResponse(HttpUrl url, List<Cookie> cookies) {
+
+                cookieStore.put(url.host(), cookies);
+            }
+
+            @Override
+            public List<Cookie> loadForRequest(HttpUrl url) {
+
+                List<Cookie> cookies = cookieStore.get(url.host());
+
+                return null != cookies ? cookies : new ArrayList<>();
+            }
+        };
+
+
+        OkHttpClient.Builder client = new OkHttpClient.Builder();
+        ThisApp thisApp = ThisApp.get(ctx);
+
+
+        client.readTimeout(300, TimeUnit.SECONDS)
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .cookieJar(jar);
+
+        if (BuildConfig.DEBUG) {
+            client.addNetworkInterceptor(interceptor);
+        }
+
+        return new Retrofit.Builder()
+                .baseUrl(mainUrl)
+                .client(client.build())
+                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(SimpleXmlConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+
+                .build()
+                .create(MainApi.class);
+    }
+
+    public static PicsumApi createPicsumApi(Context ctx) {
+
+//        String savedServerIpWithPort = PreferenceManager.getDefaultSharedPreferences(ctx)
+//                .getString(Cv.PREFS_SERVER_IP_ADDRESS, "");
+
+        String mainUrl = Cv.URL_PICSUM;
 
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -145,80 +157,77 @@ public class Helpers {
                 .addConverterFactory(GsonConverterFactory.create())
                 .addConverterFactory(SimpleXmlConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-
                 .build()
-                .create(MainApi.class);
+                .create(PicsumApi.class);
     }
 
-//    public static ApiMaxiDroid createMaxiDroidApi(Context ctx) {
-//
-//        String savedServerIp = PreferenceManager.getDefaultSharedPreferences(ctx)
-//                .getString(Cv.PREFS_SERVER_IP_ADDRESS, "")
-//                .split(":")[0];
-//
-//        String mainUrl = "".equals(savedServerIp)
-//                ? Cv.MAXI_DROID_URL
-//                : Cv.HTTP + savedServerIp + Cv.MAXI_DROID_PORT;
-//
-//        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-//        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-//
-//        OkHttpClient.Builder client = new OkHttpClient.Builder()
-//                .readTimeout(Cv.READ_TIME_OUT_SEC, TimeUnit.SECONDS)
-//                .writeTimeout(Cv.WRITE_TIME_OUT_SEC, TimeUnit.SECONDS);
-//
-//        if (BuildConfig.DEBUG) {
-//            client.addNetworkInterceptor(interceptor);
-//        }
-//
-//        Gson gson = new GsonBuilder()
-//                .setLenient()
-//                .create();
-//
-//        return new Retrofit.Builder()
-//                // TODO: 09.06.17 set mainUrl
-////                .baseUrl("http://172.22.116.164:8065/")
-////                .baseUrl("http://192.166.1.22:8065/")
-//                .baseUrl(mainUrl)
-//                .client(client.build())
-//                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-//                .addConverterFactory(GsonConverterFactory.create(gson))
-//                .build()
-//                .create(ApiMaxiDroid.class);
-//    }
 
-//    public static File createAttachmentsDirectory(String dirName) {
-//
-//        File directory = new File(Environment.getExternalStorageDirectory() +
-//                File.separator + Cv.APP_DEVICE_DIR + File.separator +
-//                dirName);
-//
-//        directory.mkdirs();
-//
-//        return directory;
-//    }
+    public static UnsplashApi createUnsplashApi(Context ctx) {
 
-//    public static String chlnumMaker(String chlwonum) {
-//
-//        if (chlwonum.length() < 4) {
-//            return chlwonum;
-//        }
-//        String subFirst = chlwonum.substring(0, chlwonum.length() - 3);
-//        String subLast = chlwonum.substring(chlwonum.length() - 3);
-//
-//        StringBuilder builder = new StringBuilder();
-//        builder.append(subFirst);
-//        builder.append(" ");
-//        builder.append(subLast);
-//
-//        return builder.toString();
-//    }
+//        String savedServerIpWithPort = PreferenceManager.getDefaultSharedPreferences(ctx)
+//                .getString(Cv.PREFS_SERVER_IP_ADDRESS, "");
 
-    public static void vibrate(Context ctx) {
+        String mainUrl = Cv.URL_UNSPLASH;
 
-        ((Vibrator) ctx.getSystemService(Context.VIBRATOR_SERVICE))
-                .vibrate(100);
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+
+        CookieJar jar = new CookieJar() {
+
+            private final HashMap<String, List<Cookie>> cookieStore = new HashMap<>();
+
+            @Override
+            public void saveFromResponse(HttpUrl url, List<Cookie> cookies) {
+
+                cookieStore.put(url.host(), cookies);
+            }
+
+            @Override
+            public List<Cookie> loadForRequest(HttpUrl url) {
+
+                List<Cookie> cookies = cookieStore.get(url.host());
+
+                return null != cookies ? cookies : new ArrayList<>();
+            }
+        };
+
+
+//        AuthenticationInterceptor authInterceptor =
+//                new AuthenticationInterceptor(ThisApp.get(ctx).authToken);
+
+
+        OkHttpClient.Builder client = new OkHttpClient.Builder();
+        ThisApp thisApp = ThisApp.get(ctx);
+
+
+        client
+//                .certificatePinner(new CertificatePinner.Builder()
+//                        .add("publicobject.com", Cv.CERTIFICATE)
+//                        .build())
+                .readTimeout(300, TimeUnit.SECONDS)
+//                .addInterceptor(new BasicAuthInterceptor(thisApp.getCurrentUser(), thisApp.getCurrentPwd()))
+
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .cookieJar(jar);
+
+        if (BuildConfig.DEBUG) {
+            client.addNetworkInterceptor(interceptor);
+        }
+
+        return new Retrofit.Builder()
+                .baseUrl(mainUrl)
+                .client(client.build())
+                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(SimpleXmlConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .build()
+                .create(UnsplashApi.class);
     }
+//    public static void vibrate(Context ctx) {
+//
+//        ((Vibrator) ctx.getSystemService(Context.VIBRATOR_SERVICE))
+//                .vibrate(100);
+//    }
 
     public static String getNiceTimeFormat(String datestring) {
         if (null == datestring) {
@@ -255,10 +264,16 @@ public class Helpers {
 
     public static String getCurrentDateTimeInNiceFormat() {
 
+//
+//        TimeZone tz = TimeZone.getTimeZone("UTC");
+//        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'"); // Quoted "Z" to indicate UTC, no timezone offset
+//        df.setTimeZone(tz);
+//        String nowAsISO = df.format(new Date());
 
 //        return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.getDefault())
 //                .format(Calendar.getInstance().getTime());
-        return new SimpleDateFormat("dd.MM.yyyy HH:mm:ss", Locale.getDefault())
+
+        return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'", Locale.getDefault())
                 .format(Calendar.getInstance().getTime());
     }
 

@@ -1,4 +1,4 @@
-//package com.lesforest.apps.showpic.adapters;
+//package com.lesforest.apps.showpic.ui.adapters;
 //
 //public class DataAdapter extends RecyclerView.Adapter {
 //private final int VIEW_ITEM = 1;

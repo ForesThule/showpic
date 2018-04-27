@@ -1,30 +1,32 @@
-package com.lesforest.apps.showpic.adapters;
+package com.lesforest.apps.showpic.ui.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
-import com.lesforest.apps.showpic.ui.MainActivity;
-import com.lesforest.apps.showpic.utils.OnLoadMoreListener;
 import com.lesforest.apps.showpic.R;
-import com.lesforest.apps.showpic.model.Entry;
+import com.lesforest.apps.showpic.ThisApp;
+import com.lesforest.apps.showpic.ui.MainActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class PicsumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final int VIEW_ITEM = 1;
     private static final int VIEW_PROG = 0;
     private final MainActivity activity;
     private final RecyclerView recyclerView;
-    List<Entry> data = new ArrayList<>();
+    List<String> data = new ArrayList<>();
     LayoutInflater layoutInflater;
     private OnLoadMoreListener onLoadMoreListener;
     private boolean loading;
@@ -32,7 +34,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final Picasso picasso;
 
 
-    public MainAdapter(MainActivity activity, RecyclerView recyclerView) {
+    public PicsumAdapter(MainActivity activity, RecyclerView recyclerView) {
         this.activity = activity;
 
 
@@ -65,12 +67,13 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         this.recyclerView = recyclerView;
 
-        picasso = Picasso.with(activity);
+        picasso = ThisApp.get(activity).getPicasso();
 
     }
 
-    public void setData(List<Entry> data) {
+    public void setData(List<String> data) {
         this.data = data;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -88,7 +91,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             View view = layoutInflater.inflate(R.layout.image_item, parent, false);
 
-            vh = new ViewHolder(view);
+            vh = new ViewHolder(activity,view);
 
         } else {
 
@@ -101,6 +104,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
 
+    @SuppressLint("CheckResult")
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 
@@ -110,19 +114,24 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             ImageView imageView = h.imageView;
 
-            Entry entry = data.get(position);
+            String entry = data.get(position);
 
-            String href = entry.img.m.href;
 
-            picasso.load(href)
+            picasso.load(entry)
                     .placeholder(R.drawable.ic_launcher_background)
                     .into(imageView);
+
+//            Action action = () ->
+//            Completable.fromAction(action)
+//                    .delay(5, TimeUnit.SECONDS)
+//                    .subscribe(() -> Timber.i("onBindViewHolder: %s","ddd"));
+
 
             imageView.setOnClickListener(v -> activity.openImage(position));
 
 
         } else {
-            ((MainAdapter.ProgressViewHolder) holder).progressBar.setIndeterminate(true);
+            ((PicsumAdapter.ProgressViewHolder) holder).progressBar.setIndeterminate(true);
         }
     }
 
@@ -152,6 +161,19 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         public ViewHolder(View v) {
             super(v);
             imageView = (ImageView) v.findViewById(R.id.iv_item);
+
+
+        }
+
+        public ViewHolder(MainActivity activity, View view) {
+            super(view);
+            imageView = (ImageView) view.findViewById(R.id.iv_item);
+
+            Display display = activity.getWindowManager().getDefaultDisplay();
+//            int width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 42, activity.getResources().getDisplayMetrics());
+            int width = display.getWidth()/ 2;
+            LinearLayout.LayoutParams parms = new LinearLayout.LayoutParams(width,width);
+            imageView.setLayoutParams(parms);
         }
     }
 
