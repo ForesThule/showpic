@@ -277,6 +277,13 @@ public class Helpers {
                 .format(Calendar.getInstance().getTime());
     }
 
+    public static String getCurrentDateTimeInNiceFormat(Calendar dateAndTime) {
+
+        return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'", Locale.getDefault())
+                .format(dateAndTime.getTime());
+    }
+
+
     public static String getFileExtension(String imgName) {
 
         String extension = Cv.JPG;

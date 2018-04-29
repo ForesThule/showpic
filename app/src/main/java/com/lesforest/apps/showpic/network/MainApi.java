@@ -1,6 +1,7 @@
 package com.lesforest.apps.showpic.network;
 
 import com.lesforest.apps.showpic.model.Feed;
+import com.lesforest.apps.showpic.utils.Cv;
 
 import io.reactivex.Single;
 import retrofit2.Call;
@@ -11,8 +12,7 @@ import retrofit2.http.Path;
 public interface  MainApi {
 
     @Headers({"Accept: application/json"})
-//    @GET("recent/{p}")
-    @GET("recent/{pth}")
+    @GET(Cv.ENDPOINT+"/{pth}")
      Single<Feed> recent(@Path("pth") String pth);
 
 

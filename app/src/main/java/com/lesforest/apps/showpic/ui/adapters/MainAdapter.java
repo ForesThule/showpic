@@ -148,6 +148,11 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return data.size();
     }
 
+    public void clearData() {
+        data = new ArrayList<>();
+        notifyDataSetChanged();
+    }
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
 

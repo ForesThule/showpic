@@ -61,8 +61,8 @@ public class ThisApp extends Application {
         OkHttp3Downloader downloader = new OkHttp3Downloader(this, Integer.MAX_VALUE);
         builder.downloader(downloader);
         picasso = builder.build();
-        picasso.setIndicatorsEnabled(true);
-        picasso.setLoggingEnabled(true);
+//        picasso.setIndicatorsEnabled(true);
+//        picasso.setLoggingEnabled(true);
         Picasso.setSingletonInstance(picasso);
     }
 

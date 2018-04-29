@@ -6,23 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".ui.MainActivity">
 
-    <ProgressBar
-        android:id="@+id/spinner"
 
-        android:indeterminate="true"
-        android:indeterminateTintMode="src_atop"
-        android:indeterminateTint="@color/colorPrimaryDark"
-
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
 
     <android.support.constraint.ConstraintLayout
@@ -39,6 +23,8 @@
             app:layout_constraintTop_toTopOf="parent"
             android:elevation="10dp"
             >
+
+
 
         </android.support.v7.widget.Toolbar>
 
@@ -61,5 +47,41 @@
         android:visibility="gone">
 
     </com.lesforest.apps.showpic.ui.PhotoAlbumViewer>
+
+
+    <ProgressBar
+        android:id="@+id/spinner"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:visibility="gone"
+
+        android:layout_gravity="center"
+
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/colorAccent"
+        android:indeterminateTintMode="src_atop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+
+
+    <DatePicker
+        android:id="@+id/date_picker"
+        android:visibility="gone"
+        android:background="@color/colorPrimary"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </DatePicker>
+
+
 
 </FrameLayout>

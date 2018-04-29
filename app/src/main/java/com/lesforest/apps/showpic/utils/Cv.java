@@ -4,7 +4,10 @@ public interface Cv {
 
     String URL = "https://api-fotki.yandex.ru/api/";
     String JPG = "JPG";
-    String INIT_PHOTOS_ENDPOINT = "updated;%s,9999,9999/?limit=10";
+
+
+    String ORDER = "poddate";
+    String INIT_PHOTOS_ENDPOINT = Cv.ORDER+";%s/?limit=50";
     String URL_PICSUM = "https://picsum.photos/";
     String URL_UNSPLASH = "https://unsplash.com/";
 
@@ -18,4 +21,7 @@ public interface Cv {
     String redirectUri = "urn:ietf:wg:oauth:2.0:oob";
 
     String authCode = "8d7640ad509c467f3ca145320effb0dce5dccdfd7446670eb86091300f8b32cf";
+    int PERMISSIONS_ITR_REQUEST = 1;
+//    String ENDPOINT = "top";
+    String ENDPOINT = "podhistory";
 }

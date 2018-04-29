@@ -60,37 +60,29 @@ public class MainPresenter {
                 .flatMap(picsumModels -> io.reactivex.Observable.fromIterable(picsumModels)
                         .map(picsumModel -> picsumModel.post_url)
                         .toList())
-                .subscribe(picsumModels -> {
-
-                    Timber.i("getPicsumList: %s",picsumModels);
-
-
-
-                    activity.showPicsumReq(picsumModels);
-
-                });
+                .subscribe(picsumModels -> activity.showPicsumReq(picsumModels));
     }
 
     @SuppressLint("CheckResult")
     public void getYandexRecentPhotos(String path) {
 
 
-        activity.showProgress();
+            activity.showProgress();
 
-        api.recent(path)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .map(f -> {
-                    activity.entryList = f.entries;
-                    return f;
-                })
-                .subscribe(feed -> {
+            api.recent(path)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(feed -> {
 
-                    activity.feed = feed;
+                        activity.entryList = feed.entries;
 
-                    activity.showMainPhotos();
+                        activity.feed = feed;
 
-                });
+                        activity.showMainPhotos();
+
+                        activity.hideProgress();
+
+                    });
     }
 
     @SuppressLint("CheckResult")
@@ -101,7 +93,7 @@ public class MainPresenter {
         String next = activity.feed.links.next;
 
         if (null!=next){
-            String[] split = next.split("recent/");
+            String[] split = next.split(Cv.ENDPOINT+"/");
             String nextPath = split[1];
 
             api.recent(nextPath)
@@ -113,15 +105,41 @@ public class MainPresenter {
                     })
                     .subscribe(feed -> {
 
-                        Timber.i("entryList %s",feed);
-
                         activity.feed = feed;
-
-//                    mainAdapter.setData(entryList);
-
                         activity.addPhotoYandex();
 
-                    });
+                        activity.hideProgress();
+
+                    }, Throwable::printStackTrace);
+        } else {
+            activity.hideProgress();
         }
+    }
+
+    @SuppressLint("CheckResult")
+    public void getPhotosOnDate(String date) {
+
+        String format = String.format(Cv.INIT_PHOTOS_ENDPOINT, date);
+
+        activity.showProgress();
+
+        activity.mainAdapter.clearData();
+
+        api.recent(format)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(feed -> {
+
+                    Timber.i("getPhotosOnDate: %s",feed);
+
+                    activity.entryList = feed.entries;
+
+                    activity.feed = feed;
+
+                    activity.showMainPhotos();
+
+                    activity.hideProgress();
+
+                });
     }
 }

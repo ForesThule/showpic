@@ -4,8 +4,8 @@
 
     <item
         
-        android:id="@+id/menu_refresh"
-        android:icon="@drawable/ic_refresh_white_24dp"
+        android:id="@+id/menu_select_date"
+        android:icon="@drawable/ic_menu_black_24dp"
         android:title="Refresh"
         app:showAsAction="always"
         />
