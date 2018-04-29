@@ -19,6 +19,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.DatePicker;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.lesforest.apps.showpic.R;
 import com.lesforest.apps.showpic.model.Entry;
@@ -55,6 +56,8 @@ public class MainActivity extends AppCompatActivity {
     public ProgressBar progress;
     @BindView(R.id.date_picker)
     DatePicker datePicker;
+    @BindView(R.id.tvdate)
+    TextView tvDate;
 
     public MainAdapter mainAdapter;
     public List<Entry> entryList;
@@ -82,6 +85,8 @@ public class MainActivity extends AppCompatActivity {
 
         dateAndTime = Calendar.getInstance();
 
+        tvDate.setText(Helpers.getCurrentDateTimeInNiceFormat(dateAndTime));
+
 
         d= (view, year, monthOfYear, dayOfMonth) -> {
             dateAndTime.set(Calendar.YEAR, year);
@@ -91,6 +96,8 @@ public class MainActivity extends AppCompatActivity {
 
             Timber.i("onCreate: ");
             mainPresenter.getPhotosOnDate(Helpers.getCurrentDateTimeInNiceFormat(dateAndTime));
+
+            tvDate.setText(Helpers.getCurrentDate(dateAndTime));
 
         };
 

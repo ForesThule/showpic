@@ -40,6 +40,7 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
+import timber.log.Timber;
 
 
 public class Helpers {
@@ -280,6 +281,15 @@ public class Helpers {
     public static String getCurrentDateTimeInNiceFormat(Calendar dateAndTime) {
 
         return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'", Locale.getDefault())
+                .format(dateAndTime.getTime());
+    }
+
+    public static String getCurrentDate(Calendar dateAndTime) {
+
+        String displayName = dateAndTime.getDisplayName(Calendar.WEEK_OF_MONTH, Calendar.LONG, Locale.getDefault());
+        Timber.i("getCurrentDate: %s",displayName);
+
+        return new SimpleDateFormat("yyyy-MMM-dd'T'HH:mm:ssZ", Locale.getDefault())
                 .format(dateAndTime.getTime());
     }
 

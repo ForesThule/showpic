@@ -21,9 +21,14 @@
             android:layout_height="wrap_content"
             android:background="@color/colorLightBlue"
             app:layout_constraintTop_toTopOf="parent"
-            android:elevation="10dp"
-            >
+            android:elevation="10dp">
 
+            <TextView
+                android:gravity="end"
+                android:id="@+id/tvdate"
+                android:textColor="@color/colorPrimaryDark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
 
         </android.support.v7.widget.Toolbar>
