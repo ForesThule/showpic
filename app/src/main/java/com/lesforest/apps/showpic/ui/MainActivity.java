@@ -27,7 +27,6 @@ import com.lesforest.apps.showpic.model.Feed;
 import com.lesforest.apps.showpic.model.Img;
 import com.lesforest.apps.showpic.ui.adapters.MainAdapter;
 import com.lesforest.apps.showpic.network.MainApi;
-import com.lesforest.apps.showpic.ui.adapters.OnLoadMoreListener;
 import com.lesforest.apps.showpic.ui.adapters.PicsumAdapter;
 import com.lesforest.apps.showpic.ui.adapters.UnsplashAdapter;
 import com.lesforest.apps.showpic.utils.Cv;
@@ -57,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.date_picker)
     DatePicker datePicker;
     @BindView(R.id.tvdate)
-    TextView tvDate;
+    TextView tvToolbarDate;
 
     public MainAdapter mainAdapter;
     public List<Entry> entryList;
@@ -85,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
 
         dateAndTime = Calendar.getInstance();
 
-        tvDate.setText(Helpers.getCurrentDateTimeInNiceFormat(dateAndTime));
+        tvToolbarDate.setText(Helpers.getCurrentDateTimeInNiceFormat(dateAndTime));
 
 
         d= (view, year, monthOfYear, dayOfMonth) -> {
@@ -95,9 +94,9 @@ public class MainActivity extends AppCompatActivity {
 //            setInitialDateTime();
 
             Timber.i("onCreate: ");
-            mainPresenter.getPhotosOnDate(Helpers.getCurrentDateTimeInNiceFormat(dateAndTime));
+            mainPresenter.getPhotosOnDate(Helpers.getCurrentDate(dateAndTime));
 
-            tvDate.setText(Helpers.getCurrentDate(dateAndTime));
+            tvToolbarDate.setText(Helpers.getCurrentDateTimeInNiceFormat(dateAndTime));
 
         };
 
@@ -105,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
                 dateAndTime.get(Calendar.YEAR),
                 dateAndTime.get(Calendar.MONTH),
                 dateAndTime.get(Calendar.DAY_OF_MONTH));
+
 
         methodRequiresTwoPermission();
 
@@ -119,6 +119,8 @@ public class MainActivity extends AppCompatActivity {
 
         getPhotosForShow();
 
+//        mainPresenter.getPhotosOnDate(Helpers.getCurrentDate(dateAndTime));
+
     }
 
     private void getPhotosForShow() {
@@ -126,6 +128,7 @@ public class MainActivity extends AppCompatActivity {
         mainPresenter.getYandexRecentPhotos(String.format(
                 Cv.INIT_PHOTOS_ENDPOINT,
                 Helpers.getCurrentDateTimeInNiceFormat()));
+
     }
 
     private void initAdapter() {

@@ -280,16 +280,14 @@ public class Helpers {
 
     public static String getCurrentDateTimeInNiceFormat(Calendar dateAndTime) {
 
-        return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'", Locale.getDefault())
+        return new SimpleDateFormat("yyyy-MMM-dd", Locale.getDefault())
                 .format(dateAndTime.getTime());
     }
 
     public static String getCurrentDate(Calendar dateAndTime) {
 
         String displayName = dateAndTime.getDisplayName(Calendar.WEEK_OF_MONTH, Calendar.LONG, Locale.getDefault());
-        Timber.i("getCurrentDate: %s",displayName);
-
-        return new SimpleDateFormat("yyyy-MMM-dd'T'HH:mm:ssZ", Locale.getDefault())
+        return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.getDefault())
                 .format(dateAndTime.getTime());
     }
 

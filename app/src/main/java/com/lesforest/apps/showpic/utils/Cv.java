@@ -6,8 +6,9 @@ public interface Cv {
     String JPG = "JPG";
 
 
-    String ORDER = "poddate";
+    String ORDER = "rpoddate";
     String INIT_PHOTOS_ENDPOINT = Cv.ORDER+";%s/?limit=50";
+    String ENDPOINT = "podhistory";
     String URL_PICSUM = "https://picsum.photos/";
     String URL_UNSPLASH = "https://unsplash.com/";
 
@@ -23,5 +24,4 @@ public interface Cv {
     String authCode = "8d7640ad509c467f3ca145320effb0dce5dccdfd7446670eb86091300f8b32cf";
     int PERMISSIONS_ITR_REQUEST = 1;
 //    String ENDPOINT = "top";
-    String ENDPOINT = "podhistory";
 }

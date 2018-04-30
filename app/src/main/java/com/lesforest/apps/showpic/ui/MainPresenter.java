@@ -1,6 +1,7 @@
 package com.lesforest.apps.showpic.ui;
 
 import android.annotation.SuppressLint;
+import android.widget.Toast;
 
 import com.lesforest.apps.showpic.ThisApp;
 import com.lesforest.apps.showpic.network.MainApi;
@@ -82,6 +83,12 @@ public class MainPresenter {
 
                         activity.hideProgress();
 
+
+
+                        if (null==feed.entries || feed.entries.size()==0){
+                            Toast.makeText(activity, "К сожалению нам нечего вам показать. Попробуйте выбрать другую дату.", Toast.LENGTH_LONG).show();
+                        }
+
                     });
     }
 
@@ -139,6 +146,10 @@ public class MainPresenter {
                     activity.showMainPhotos();
 
                     activity.hideProgress();
+
+                    if (null==feed.entries || feed.entries.size()==0){
+                        Toast.makeText(activity, "К сожалению нам нечего вам показать. Попробуйте выбрать другую дату.", Toast.LENGTH_LONG).show();
+                    }
 
                 });
     }

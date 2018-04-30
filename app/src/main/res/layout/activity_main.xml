@@ -24,9 +24,10 @@
             android:elevation="10dp">
 
             <TextView
-                android:gravity="end"
+
                 android:id="@+id/tvdate"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="@color/black"
+                android:alpha="10"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
